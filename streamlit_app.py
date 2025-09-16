@@ -2,16 +2,8 @@ import streamlit as st
 import soundfile as sf
 import numpy as np
 import tempfile
-import os
 from datetime import datetime
 from src.audio_length_matcher import proportionally_adjust_pauses
-
-# Define your output location
-output_dir = '/home/ashok/Downloads/english_audio_correct_timestamps'  # Change this to the path where you want to save the file
-
-# Ensure the directory exists
-if not os.path.exists(output_dir):
-    os.makedirs(output_dir)
 
 st.title("Audio Length Matcher")
 
@@ -36,16 +28,15 @@ if uploaded_file and target_length:
 
             # Process the audio to adjust pauses
             new_audio_data = proportionally_adjust_pauses(audio_data, samplerate, target_length)
-            
-            # Create the output file path with the original file name
-            output_file_path = os.path.join(output_dir, f"{file_name}_processed.{file_extension}")
-            
-            # Write the new audio to the output path
-            with open(output_file_path, "wb") as temp_out:
+
+            # Save the processed audio in memory, avoiding saving to disk
+            with tempfile.NamedTemporaryFile(delete=False, suffix=".wav") as temp_out:
+                output_file_path = temp_out.name
                 sf.write(output_file_path, new_audio_data, samplerate)
+                
                 st.success("Audio processed!")
 
-                # Display download button with the processed file
+                # Provide the download button for the processed audio file
                 with open(output_file_path, "rb") as f:
                     st.download_button(
                         label="Download Output Audio",
