@@ -29,18 +29,15 @@ if uploaded_file and target_length:
             # Process the audio to adjust pauses
             new_audio_data = proportionally_adjust_pauses(audio_data, samplerate, target_length)
 
-            # Save the processed audio in memory, avoiding saving to disk
+            # Save the processed audio in memory
             with tempfile.NamedTemporaryFile(delete=False, suffix=".wav") as temp_out:
                 output_file_path = temp_out.name
                 sf.write(output_file_path, new_audio_data, samplerate)
-                
+
+                # Provide a success message
                 st.success("Audio processed!")
 
-                # Provide the download button for the processed audio file
+                # Automatically trigger the download by linking the file
+                # This won't "force" the download but will allow the user to open it in the browser
                 with open(output_file_path, "rb") as f:
-                    st.download_button(
-                        label="Download Output Audio",
-                        data=f.read(),
-                        file_name=f"{file_name}.{file_extension}",
-                        mime=f"audio/{file_extension}"
-                    )
+                    st.markdown(f'<a href="data:audio/wav;base64,{f.read().decode("latin1")}" download="{file_name}_processed.{file_extension}">Click here to download the processed file</a>', unsafe_allow_html=True)
