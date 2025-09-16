@@ -41,6 +41,6 @@ if uploaded_file and target_length:
                     st.download_button(
                         label="Download Output Audio",
                         data=f.read(),
-                        file_name=f"{file_name}_processed.{file_extension}",
+                        file_name=f"{file_name}.{file_extension}",
                         mime=f"audio/{file_extension}"
                     )
