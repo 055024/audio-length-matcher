@@ -7,7 +7,7 @@ from datetime import datetime
 from src.audio_length_matcher import proportionally_adjust_pauses
 
 # Define your output location
-output_dir = '/desired/output/directory/'  # Change this to the path where you want to save the file
+output_dir = '/src/'  # Change this to the path where you want to save the file
 
 # Ensure the directory exists
 if not os.path.exists(output_dir):
