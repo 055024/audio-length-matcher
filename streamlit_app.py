@@ -8,7 +8,14 @@ from src.audio_length_matcher import proportionally_adjust_pauses
 st.title("Audio Length Matcher")
 
 uploaded_file = st.file_uploader("Upload Audio File", type=["mp3", "wav", "ogg", "flac"])
-target_length = st.number_input("Required Output Length (seconds)", min_value=1, step=1)
+
+# Allow decimal input for target length
+target_length = st.number_input(
+    "Required Output Length (seconds)",
+    min_value=0.1,
+    step=0.1,
+    format="%.2f"
+)
 
 if uploaded_file and target_length:
     if st.button("Process Audio"):
