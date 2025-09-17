@@ -12,7 +12,7 @@ uploaded_file = st.file_uploader("Upload Audio File", type=["mp3", "wav", "ogg",
 # Allow decimal input for target length
 target_length = st.number_input(
     "Required Output Length (seconds)",
-    min_value=0,
+    min_value=0.1,
     step=0.1,
     format="%.2f"
 )
